@@ -2,7 +2,7 @@
 let player;
 let isMuted = true;
 // Default to a scenic lofi video
-let currentVideoId = 'jfKfPfyJRdk'; // Lofi Girl
+let currentVideoId = 'jfKfPfyJRdk'; // Official Lofi Girl VOD
 
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {

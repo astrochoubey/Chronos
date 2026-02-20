@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grades | Chronos</title>
+    <link rel="stylesheet" href="grade.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js for graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <!-- Background Pattern -->
+    <div class="bg-pattern"></div>
+
+    <!-- YouTube Background Video -->
+    <div id="video-background">
+        <div id="player"></div>
+    </div>
+    <div id="video-overlay"></div>
+
+    <!-- Top Navigation Bar -->
+    <nav class="top-nav glass-panel">
+        <div class="nav-branding">
+            <h2>Chronos</h2>
+            <i class="fa-solid fa-infinity"></i>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../1. Home/index.html"><i class="fa-solid fa-house"></i> <span class="nav-text">Home</span></a></li>
+            <li><a href="../2. Calender/index.html"><i class="fa-solid fa-calendar"></i> <span class="nav-text">Calendar</span></a></li>
+            <li><a href="../5. Projects/index.html"><i class="fa-solid fa-rocket"></i> <span class="nav-text">Projects</span></a></li>
+            <li><a href="../6. Notes/index.html"><i class="fa-solid fa-leaf"></i> <span class="nav-text">Notes</span></a></li>
+            <li class="active"><a href="#"><i class="fa-solid fa-graduation-cap"></i> <span class="nav-text">Grades</span></a></li>
+            <li><a href="../4. PomodoroTimer'/pomodoro.html"><i class="fa-solid fa-hourglass-half"></i> <span class="nav-text">Focus</span></a></li>
+        </ul>
+        <div class="user-profile">
+            <div class="avatar">PC</div>
+            <button class="theme-toggle" id="theme-toggle" title="Toggle Light/Dark Theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="dashboard">
+        
+        <!-- Header & Config -->
+        <div class="header-section">
+            <div class="title-area">
+                <h1>Academic Overview</h1>
+                <p id="semester-info-text">Configure your academic year to get started.</p>
+            </div>
+            <button class="glass-btn" id="config-btn"><i class="fa-solid fa-gear"></i> Settings</button>
+        </div>
+
+        <!-- Dashboard Grid -->
+        <div class="content-grid">
+            
+            <!-- Left Column: Graph and Meta -->
+            <div class="left-col">
+                <div class="widget glass-panel graph-widget">
+                    <h3>Performance vs Goals</h3>
+                    <div class="chart-container">
+                        <canvas id="gradesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Subjects list depending on semester -->
+            <div class="right-col">
+                <div class="widget glass-panel subjects-widget">
+                    <div class="widget-header">
+                        <div class="semester-tabs" id="semester-tabs">
+                            <!-- Tabs populated by JS -->
+                        </div>
+                        <button class="glass-btn small-btn" id="add-subject-btn"><i class="fa-solid fa-plus"></i> Add Subject</button>
+                    </div>
+
+                    <div class="subjects-grid" id="subjects-container">
+                        <!-- Subject Cards injected here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Initial Config Modal (Semesters per year) -->
+    <div id="config-modal" class="modal">
+        <div class="modal-content glass-panel">
+            <span class="close-btn" id="close-config">&times;</span>
+            <h2>Academic Settings</h2>
+            <p class="modal-desc">How many semesters/terms do you have in an academic year?</p>
+            <div class="setting-group">
+                <label>Number of Semesters/Terms</label>
+                <input type="number" id="semesters-count-input" min="1" max="6" value="2">
+            </div>
+            <div class="setting-group">
+                <label>Current Semester</label>
+                <input type="number" id="current-semester-input" min="1" max="6" value="1">
+            </div>
+            <button class="primary-btn" id="save-config-btn">Save Configuration</button>
+        </div>
+    </div>
+
+    <!-- Add Subject Modal -->
+    <div id="subject-modal" class="modal">
+        <div class="modal-content glass-panel large-modal">
+            <span class="close-btn" id="close-subject">&times;</span>
+            <h2 id="subject-modal-title">Add New Subject</h2>
+            
+            <div class="modal-grid">
+                <div class="setting-group">
+                    <label>Subject Name</label>
+                    <input type="text" id="subj-name" placeholder="e.g. Advanced Mathematics">
+                </div>
+                <div class="setting-group">
+                    <label>Teacher's Name</label>
+                    <input type="text" id="subj-teacher" placeholder="e.g. Dr. Smith">
+                </div>
+                <div class="setting-group">
+                    <label>Teacher's Contact</label>
+                    <input type="text" id="subj-contact" placeholder="e.g. smith@university.edu">
+                </div>
+                <div class="setting-group">
+                    <label>Goal Grade (%)</label>
+                    <input type="number" id="subj-goal" min="0" max="100" placeholder="90">
+                </div>
+                <div class="setting-group">
+                    <label>Current Grade (%)</label>
+                    <input type="number" id="subj-current" min="0" max="100" placeholder="85">
+                </div>
+                <div class="setting-group full-width">
+                    <label>Grade Weightages (Optional Notes)</label>
+                    <textarea id="subj-weightages" placeholder="e.g. Midterm 30%, Final 50%, Homework 20%"></textarea>
+                </div>
+            </div>
+            
+            <input type="hidden" id="edit-subj-id" value="">
+            <button class="primary-btn" id="save-subject-btn">Save Subject</button>
+        </div>
+    </div>
+
+    <script src="../theme.js"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="grades.js"></script>
+</body>
+</html>
