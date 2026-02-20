@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Focus Timer | Chronos</title>
+    <link rel="stylesheet" href="pomodoro.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- YouTube Background Video -->
+    <div id="video-background">
+        <div id="player"></div>
+    </div>
+    <div id="video-overlay"></div>
+
+    <!-- Top Navigation Bar -->
+    <nav class="top-nav glass-panel">
+        <div class="nav-branding">
+            <h2>Chronos</h2>
+            <i class="fa-solid fa-infinity"></i>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../1. Home/index.html"><i class="fa-solid fa-house"></i> <span class="nav-text">Home</span></a></li>
+            <li><a href="../2. Calender/index.html"><i class="fa-solid fa-calendar"></i> <span class="nav-text">Calendar</span></a></li>
+            <li><a href="../5. Projects/index.html"><i class="fa-solid fa-rocket"></i> <span class="nav-text">Projects</span></a></li>
+            <li><a href="../6. Notes/index.html"><i class="fa-solid fa-leaf"></i> <span class="nav-text">Notes</span></a></li>
+            <li><a href="../3. Grades/index.html"><i class="fa-solid fa-graduation-cap"></i> <span class="nav-text">Grades</span></a></li>
+            <li class="active"><a href="#"><i class="fa-solid fa-hourglass-half"></i> <span class="nav-text">Focus</span></a></li>
+        </ul>
+        <div class="user-profile">
+            <div class="avatar">PC</div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="dashboard">
+
+        <!-- To Do List Widget -->
+        <div class="widget todo-widget glass-panel">
+            <h3>To do</h3>
+            <div class="todo-input-container">
+                <input type="text" id="todo-input" placeholder="Add a task...">
+                <button id="add-todo"><i class="fa-solid fa-plus"></i></button>
+            </div>
+            <ul id="todo-list">
+                <!-- Tasks here -->
+            </ul>
+        </div>
+
+        <!-- Timer Widget -->
+        <div class="widget timer-widget glass-panel">
+            <div class="timer-tabs">
+                <button class="active" id="tab-focus">Focus</button>
+                <button id="tab-break">Short Break</button>
+            </div>
+            
+            <div class="time-display" id="time-display">25:00</div>
+            <div class="timer-status" id="timer-status">STAY FOCUSED</div>
+            
+            <div class="pomodoro-tally" id="pomodoro-tally">
+            </div>
+
+            <div class="timer-controls">
+                <button class="control-btn" id="reset-btn"><i class="fa-solid fa-arrow-rotate-right"></i></button>
+                <button class="control-btn play" id="start-btn"><i class="fa-solid fa-play"></i></button>
+                <button class="control-btn" id="settings-btn"><i class="fa-solid fa-gear"></i></button>
+            </div>
+        </div>
+
+        <!-- Stats Widget -->
+        <div class="widget stats-widget glass-panel">
+            <h3>Stats</h3>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-label">Today</span>
+                    <span class="stat-value" id="stat-today">0h 0m</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">This Week</span>
+                    <span class="stat-value" id="stat-week">0h 0m</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">This Month</span>
+                    <span class="stat-value" id="stat-month">0h 0m</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">This Year</span>
+                    <span class="stat-value" id="stat-year">0h 0m</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Floating Spotify Player Widget -->
+        <div class="widget spotify-player-widget" id="spotify-player-widget" style="display: none;">
+            <iframe id="spotify-iframe" style="border-radius:12px" src="" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
+
+        <!-- Floating Action Buttons -->
+        <div class="floating-actions">
+            <button id="spotify-toggle-btn" class="glass-panel floating-btn"><i class="fa-brands fa-spotify"></i> Spotify</button>
+            <button id="bg-toggle-btn" class="glass-panel floating-btn"><i class="fa-solid fa-video"></i> Background</button>
+        </div>
+
+        <!-- Background Video Controls Widget -->
+        <div class="widget controls-panel glass-panel" id="bg-controls-panel" style="display: none;">
+            <h3>Background Video</h3>
+            <div class="bg-input-container">
+                <input type="text" id="yt-link-input" placeholder="Paste YouTube Link...">
+                <button id="set-bg-btn">Set</button>
+            </div>
+            <div class="bg-toggles">
+                <label>
+                    <input type="checkbox" id="mute-toggle" checked>
+                    Mute Video
+                </label>
+            </div>
+        </div>
+
+        <!-- Spotify Controls Widget -->
+        <div class="widget controls-panel glass-panel" id="spotify-controls-panel" style="display: none;">
+            <h3>Spotify Playlist</h3>
+            <div class="bg-input-container">
+                <input type="text" id="spotify-link-input" placeholder="Paste Spotify Link...">
+                <button id="set-spotify-btn">Set</button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal">
+        <div class="modal-content glass-panel">
+            <span class="close-btn" id="close-settings">&times;</span>
+            <h2>Timer Settings</h2>
+            <div class="setting-group">
+                <label>Focus Time (minutes)</label>
+                <input type="number" id="focus-time-input" min="1" max="120" value="25">
+            </div>
+            <div class="setting-group">
+                <label>Short Break (minutes)</label>
+                <input type="number" id="break-time-input" min="1" max="60" value="5">
+            </div>
+            <button id="save-settings-btn">Save Timer Lengths</button>
+        </div>
+    </div>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="pomodoro.js"></script>
+</body>
+</html>
