@@ -1,0 +1,372 @@
+/* Google Calendar layout overriding theme variables */
+:root {
+    --bg-color: #0f172a;
+    --glass-bg: rgba(255, 255, 255, 0.08);
+    --glass-border: rgba(255, 255, 255, 0.15);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --primary: #3b82f6;
+    --primary-hover: #2563eb;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --sidebar-bg: rgba(15, 23, 42, 0.7);
+    --grid-line: rgba(255, 255, 255, 0.05); /* Grid paper lines */
+
+    /* Full Calendar Overrides */
+    --fc-page-bg-color: transparent;
+    --fc-border-color: var(--glass-border);
+    --fc-today-bg-color: rgba(59, 130, 246, 0.15);
+    --fc-button-bg-color: var(--sidebar-bg);
+    --fc-button-border-color: var(--glass-border);
+    --fc-button-hover-bg-color: var(--glass-bg);
+    --fc-button-hover-border-color: var(--glass-border);
+    --fc-button-active-bg-color: var(--primary);
+    --fc-button-active-border-color: var(--primary);
+    --fc-event-bg-color: var(--primary);
+    --fc-event-border-color: transparent;
+    --fc-event-text-color: #fff;
+    --fc-neutral-text-color: var(--text-main);
+    --fc-list-event-hover-bg-color: var(--glass-bg);
+    --fc-theme-standard-border-color: var(--glass-border);
+}
+
+/* Light Mode Overrides */
+:root[data-theme="light"] {
+    --bg-color: #f8fafc;
+    --glass-bg: rgba(255, 255, 255, 0.6);
+    --glass-border: rgba(0, 0, 0, 0.1);
+    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --sidebar-bg: rgba(255, 255, 255, 0.8);
+    --grid-line: rgba(0, 0, 0, 0.05);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Outfit', sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Background Pattern */
+.bg-pattern {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--bg-color);
+    background-image: url('../Archive/Gray Asphalt Road Photo.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -3;
+    pointer-events: none;
+    transition: 0.3s background-color ease;
+}
+
+/* Glassmorphism Classes */
+.glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    border-radius: 20px;
+}
+
+/* Navigation Base */
+.top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 30px;
+    margin: 20px auto 0 auto;
+    max-width: 1500px;
+    width: calc(100% - 40px); /* Keep slight offset from edge on small screens */
+    height: 70px;
+    background: var(--glass-bg);
+    z-index: 10;
+}
+.nav-branding { display: flex; align-items: center; gap: 15px; }
+.nav-branding h2 { font-size: 24px; font-weight: 700; }
+.nav-links { list-style: none; display: flex; gap: 15px; }
+.nav-links a {
+    display: flex; align-items: center; gap: 8px;
+    text-decoration: none; color: var(--text-muted); padding: 8px 15px;
+    border-radius: 12px; transition: all 0.3s ease; font-weight: 500;
+}
+.nav-links a:hover { background: var(--glass-border); color: var(--text-main); }
+.nav-links li.active a { background: var(--text-main); color: var(--bg-color); font-weight: 600; }
+.user-profile { display: flex; align-items: center; }
+.avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--primary); display: flex; align-items: center; justify-content: center; font-weight: 700; color: white; }
+.theme-toggle { margin-left: 15px; background: transparent; border: none; color: var(--text-main); font-size: 20px; cursor: pointer; transition: 0.3s; }
+.theme-toggle:hover { color: var(--primary); }
+
+/* Main Grid Layout */
+.dashboard {
+    flex-grow: 1;
+    padding: 20px 0;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 20px;
+    max-width: 1500px;
+    margin: 0 auto;
+    width: calc(100% - 40px);
+    height: calc(100vh - 110px); /* Fill remaining space below nav */
+}
+
+/* Calendar Styling overrides */
+.calendar-panel {
+    padding: 25px;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+#calendar {
+    flex-grow: 1;
+    font-size: 14px;
+}
+
+.fc .fc-toolbar-title {
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.fc-theme-standard th {
+    border-color: var(--glass-border);
+    padding: 10px 0;
+}
+
+.fc-scrollgrid td {
+    border-color: var(--glass-border);
+}
+
+.fc .fc-col-header-cell-cushion {
+    font-weight: 600;
+}
+.fc .fc-col-header-cell-cushion, 
+.fc .fc-daygrid-day-number {
+    color: var(--text-main);
+    text-decoration: none;
+}
+
+/* Ensure empty days still have our theme border */
+.fc-theme-standard .fc-scrollgrid {
+    border-color: var(--glass-border);
+}
+
+.fc-event {
+    cursor: pointer;
+    border-radius: 6px;
+    padding: 2px 5px;
+    font-size: 13px;
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+.fc-event:hover {
+    transform: scale(1.02);
+}
+
+/* To-Do List Sidebar */
+.todo-panel {
+    padding: 25px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.todo-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--glass-border);
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.todo-header h3 {
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.small-btn {
+    padding: 6px 12px;
+    border-radius: 10px;
+}
+
+.empty-todo {
+    color: var(--text-muted);
+    font-size: 14px;
+    text-align: center;
+    margin-top: 50px;
+}
+
+.todo-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.todo-item {
+    background: var(--sidebar-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    padding: 14px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: 0.3s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.todo-item:hover {
+    background: var(--glass-bg);
+    transform: translateX(4px);
+}
+
+.todo-check {
+    width: 22px;
+    height: 22px;
+    border-radius: 5px;
+    border: 2px solid var(--primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.2s;
+    font-size: 12px;
+    flex-shrink: 0;
+}
+
+.todo-content {
+    flex-grow: 1;
+}
+
+.todo-title {
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 3px;
+    transition: 0.3s;
+}
+
+.todo-date {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.todo-tag {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+    background: var(--primary);
+}
+
+/* Modals */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.active { display: flex; }
+
+.modal-content {
+    background: var(--bg-color);
+    padding: 40px;
+    width: 450px;
+    position: relative;
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+}
+
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--text-muted);
+}
+
+.close-btn:hover { color: var(--text-main); }
+
+.setting-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 18px;
+}
+
+.setting-group label {
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+.setting-group input, .setting-group select {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    padding: 12px;
+    border-radius: 10px;
+    color: var(--text-main);
+    font-size: 15px;
+    outline: none;
+}
+
+.setting-group select option {
+    background: var(--bg-color); 
+    color: var(--text-main);
+}
+
+/* Buttons */
+.glass-btn {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    color: var(--text-main);
+    padding: 10px 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.glass-btn:hover { background: var(--glass-border); }
+
+.primary-btn {
+    background: var(--text-main);
+    color: var(--bg-color);
+    border: none;
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.primary-btn:hover { opacity: 0.85; }

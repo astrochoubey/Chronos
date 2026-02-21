@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects Dashboard | Chronos</title>
+    <link rel="stylesheet" href="projects.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js for graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <!-- Background Pattern -->
+    <div class="bg-pattern"></div>
+
+    <!-- Top Navigation Bar -->
+    <nav class="top-nav glass-panel">
+        <div class="nav-branding">
+            <h2>Chronos</h2>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../1. Home/index.html"><i class="fa-solid fa-house"></i> <span class="nav-text">Home</span></a></li>
+            <li><a href="../2. Calendar/calendar.html"><i class="fa-solid fa-calendar"></i> <span class="nav-text">Calendar</span></a></li>
+            <li class="active"><a href="#"><i class="fa-solid fa-rocket"></i> <span class="nav-text">Projects</span></a></li>
+            <li><a href="../6. Notes/index.html"><i class="fa-solid fa-leaf"></i> <span class="nav-text">Notes</span></a></li>
+            <li><a href="../3. Grades/grades.html"><i class="fa-solid fa-graduation-cap"></i> <span class="nav-text">Grades</span></a></li>
+            <li><a href="../4. PomodoroTimer'/pomodoro.html"><i class="fa-solid fa-hourglass-half"></i> <span class="nav-text">Focus</span></a></li>
+        </ul>
+        <div class="user-profile">
+            <div class="avatar">PC</div>
+            <button class="theme-toggle" id="theme-toggle" title="Toggle Light/Dark Theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="dashboard">
+        
+        <!-- Header & Config -->
+        <div class="header-section">
+            <div class="title-area">
+                <h1>Projects & Assignments</h1>
+                <p id="projects-info-text">Manage your tasks systematically across stages.</p>
+            </div>
+            <button class="primary-btn glass-btn" id="add-project-btn"><i class="fa-solid fa-plus"></i> New Project</button>
+        </div>
+
+        <!-- View Controls -->
+        <div class="view-controls">
+            <div class="view-tabs">
+                <button class="view-tab active" data-target="list-view"><i class="fa-solid fa-list-ul"></i> List View</button>
+                <button class="view-tab" data-target="board-view"><i class="fa-solid fa-columns"></i> Board View</button>
+                <button class="view-tab" data-target="analytics-view"><i class="fa-solid fa-chart-pie"></i> Analytics</button>
+            </div>
+        </div>
+
+        <!-- Main Dashboard Container -->
+        <div class="content-container">
+            
+            <!-- LIST VIEW -->
+            <div id="list-view" class="view-section active">
+                <div class="list-header glass-panel">
+                    <div class="col-name">Project / Assignment</div>
+                    <div class="col-priority">Priority</div>
+                    <div class="col-status">Status</div>
+                    <div class="col-due">Due Date</div>
+                    <div class="col-actions">Actions</div>
+                </div>
+                <div class="list-body" id="list-container">
+                    <!-- List items injected here by JS -->
+                </div>
+            </div>
+
+            <!-- BOARD VIEW (KANBAN) -->
+            <div id="board-view" class="view-section" style="display: none;">
+                <div class="kanban-board">
+                    <!-- Not Started Column -->
+                    <div class="kanban-col glass-panel" id="col-not-started">
+                        <div class="col-header">
+                            <h3>Not Started <span class="col-count">0</span></h3>
+                        </div>
+                        <div class="col-cards" data-status="Not Started"></div>
+                    </div>
+                    
+                    <!-- In Progress Column -->
+                    <div class="kanban-col glass-panel" id="col-in-progress">
+                        <div class="col-header">
+                            <h3>In Progress <span class="col-count">0</span></h3>
+                        </div>
+                        <div class="col-cards" data-status="In Progress"></div>
+                    </div>
+
+                    <!-- Complete Column -->
+                    <div class="kanban-col glass-panel" id="col-complete">
+                        <div class="col-header">
+                            <h3>Complete <span class="col-count">0</span></h3>
+                        </div>
+                        <div class="col-cards" data-status="Complete"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ANALYTICS VIEW -->
+            <div id="analytics-view" class="view-section" style="display: none;">
+                <div class="analytics-grid">
+                    <!-- Status Chart -->
+                    <div class="widget glass-panel chart-widget">
+                        <h3>Status Distribution</h3>
+                        <div class="chart-container">
+                            <canvas id="statusChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <!-- Priority Chart -->
+                    <div class="widget glass-panel chart-widget">
+                        <h3>Priority Breakdown</h3>
+                        <div class="chart-container">
+                            <canvas id="priorityChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <!-- Completion Stats block -->
+                    <div class="widget glass-panel stats-widget">
+                        <h3>Overall Progress</h3>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-fill" id="overall-progress-fill" style="width: 0%;"></div>
+                        </div>
+                        <p class="progress-text" id="overall-progress-text">0% Completed</p>
+                        
+                        <div class="mini-stats">
+                            <div class="mini-stat-card">
+                                <span class="stat-num" id="stat-total">0</span>
+                                <span class="stat-label">Total Projects</span>
+                            </div>
+                            <div class="mini-stat-card">
+                                <span class="stat-num" id="stat-pending">0</span>
+                                <span class="stat-label">Pending</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Add/Edit Project Modal -->
+    <div id="project-modal" class="modal">
+        <div class="modal-content glass-panel large-modal">
+            <span class="close-btn" id="close-project-modal">&times;</span>
+            <h2 id="project-modal-title">Add New Project</h2>
+            
+            <div class="modal-grid">
+                <div class="setting-group full-width">
+                    <label>Project Name</label>
+                    <input type="text" id="proj-name" placeholder="e.g. Final History Paper">
+                </div>
+                
+                <div class="setting-group full-width">
+                    <label>Description</label>
+                    <textarea id="proj-desc" placeholder="Brief outline or notes..."></textarea>
+                </div>
+
+                <div class="setting-group">
+                    <label>Status</label>
+                    <select id="proj-status">
+                        <option value="Not Started">Not Started</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Complete">Complete</option>
+                    </select>
+                </div>
+
+                <div class="setting-group">
+                    <label>Priority</label>
+                    <select id="proj-priority">
+                        <option value="Low">Low</option>
+                        <option value="Medium" selected>Medium</option>
+                        <option value="High">High</option>
+                    </select>
+                </div>
+                
+                <div class="setting-group full-width">
+                    <label>Due Date</label>
+                    <input type="date" id="proj-due">
+                </div>
+            </div>
+            
+            <input type="hidden" id="edit-proj-id" value="">
+            <button class="primary-btn" id="save-project-btn" style="margin-top:20px; width:100%;">Save Project</button>
+        </div>
+    </div>
+
+    <!-- Background script logic to ensure everything loads fine -->
+    <script src="../theme.js"></script>
+    <script src="projects.js"></script>
+</body>
+</html>

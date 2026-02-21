@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar & Tasks | Chronos</title>
+    <link rel="stylesheet" href="calendar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
+</head>
+<body>
+
+    <!-- Background Pattern -->
+    <div class="bg-pattern"></div>
+
+    <!-- Top Navigation Bar -->
+    <nav class="top-nav glass-panel">
+        <div class="nav-branding">
+            <h2>Chronos</h2>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../1. Home/index.html"><i class="fa-solid fa-house"></i> <span class="nav-text">Home</span></a></li>
+            <li class="active"><a href="#"><i class="fa-solid fa-calendar"></i> <span class="nav-text">Calendar</span></a></li>
+            <li><a href="../5. Projects/projects.html"><i class="fa-solid fa-rocket"></i> <span class="nav-text">Projects</span></a></li>
+            <li><a href="../6. Notes/index.html"><i class="fa-solid fa-leaf"></i> <span class="nav-text">Notes</span></a></li>
+            <li><a href="../3. Grades/grades.html"><i class="fa-solid fa-graduation-cap"></i> <span class="nav-text">Grades</span></a></li>
+            <li><a href="../4. PomodoroTimer'/pomodoro.html"><i class="fa-solid fa-hourglass-half"></i> <span class="nav-text">Focus</span></a></li>
+        </ul>
+        <div class="user-profile">
+            <div class="avatar">PC</div>
+            <button class="theme-toggle" id="theme-toggle" title="Toggle Light/Dark Theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="dashboard calendar-dashboard">
+        <!-- Calendar Column -->
+        <div class="calendar-panel glass-panel">
+            <div id="calendar"></div>
+        </div>
+
+        <!-- To-Do Column -->
+        <div class="todo-panel glass-panel">
+            <div class="todo-header">
+                <h3><i class="fa-solid fa-list-check"></i> To-Do Sync</h3>
+                <button id="add-todo-btn" class="glass-btn small-btn"><i class="fa-solid fa-plus"></i></button>
+            </div>
+            <div class="todo-list" id="todo-list-container">
+                <!-- Todo items injected manually or extracted from calendar sync -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal for Event & Todo Create/Edit -->
+    <div id="event-modal" class="modal">
+        <div class="modal-content glass-panel">
+            <span class="close-btn" id="close-event-modal">&times;</span>
+            <h2 id="modal-title">Add Event / Task</h2>
+            
+            <div class="setting-group" style="margin-top:20px;">
+                <label>Title</label>
+                <input type="text" id="event-title" placeholder="What's happening?">
+            </div>
+            
+            <div class="setting-group">
+                <label>Date & Time</label>
+                <input type="datetime-local" id="event-date">
+            </div>
+
+            <div class="setting-group">
+                <label>Tag (Color)</label>
+                <select id="event-color">
+                    <option value="#3b82f6" selected>Blue (General)</option>
+                    <option value="#10b981">Green (Personal)</option>
+                    <option value="#ef4444">Red (Urgent)</option>
+                    <option value="#f59e0b">Orange (Work)</option>
+                    <option value="#8b5cf6">Purple (Study)</option>
+                </select>
+            </div>
+
+            <div class="setting-group" style="flex-direction: row; align-items: center; gap: 10px; margin-top: 15px;">
+                <input type="checkbox" id="sync-todo" checked style="width:auto; height: 18px; width: 18px;">
+                <label for="sync-todo" style="margin: 0; cursor: pointer; color: var(--text-main); font-size: 16px;">Sync to To-Do List</label>
+            </div>
+
+            <input type="hidden" id="edit-event-id" value="">
+            <div style="display:flex; gap:10px; margin-top: 25px;">
+                <button class="primary-btn" id="save-event-btn" style="flex-grow:1;">Save</button>
+                <button class="glass-btn" id="delete-event-btn" style="display:none; border-color: var(--danger); color: var(--danger);">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals and theme support -->
+    <script src="../theme.js"></script>
+    <script src="calendar.js"></script>
+</body>
+</html>

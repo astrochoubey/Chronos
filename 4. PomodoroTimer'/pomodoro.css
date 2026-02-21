@@ -93,9 +93,11 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 10px 30px;
-    margin: 20px 20px 0 20px;
+    margin: 20px auto 0 auto;
+    max-width: 1500px;
+    width: calc(100% - 40px);
     height: 70px;
-    background: var(--sidebar-bg);
+    background: var(--glass-bg);
     z-index: 10;
 }
 
@@ -139,6 +141,8 @@ body {
     font-weight: 600;
 }
 
+
+
 .user-profile {
     display: flex;
     align-items: center;
@@ -174,8 +178,10 @@ body {
 .dashboard {
     flex-grow: 1;
     position: relative;
-    padding: 20px;
-    width: 100%;
+    padding: 30px 0;
+    margin: 0 auto;
+    max-width: 1500px;
+    width: calc(100% - 40px);
 }
 
 /* Widgets Styling */
@@ -470,6 +476,10 @@ body {
 
 .floating-btn:hover {
     background: var(--glass-bg);
+}
+
+:root[data-theme="light"] .floating-btn {
+    color: var(--bg-color); /* Light textual pop in light mode */
 }
 
 /* Settings & Input Controls Panel Overlay */
