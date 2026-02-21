@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,6 +13,7 @@
     <!-- Chart.js for graphs -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
 
     <!-- Background Pattern -->
@@ -23,12 +25,18 @@
             <h2>Chronos</h2>
         </div>
         <ul class="nav-links">
-            <li><a href="../1. Home/index.html"><i class="fa-solid fa-house"></i> <span class="nav-text">Home</span></a></li>
-            <li><a href="../2. Calendar/calendar.html"><i class="fa-solid fa-calendar"></i> <span class="nav-text">Calendar</span></a></li>
-            <li><a href="../5. Projects/projects.html"><i class="fa-solid fa-rocket"></i> <span class="nav-text">Projects</span></a></li>
-            <li><a href="../6. Notes/index.html"><i class="fa-solid fa-leaf"></i> <span class="nav-text">Notes</span></a></li>
-            <li class="active"><a href="#"><i class="fa-solid fa-graduation-cap"></i> <span class="nav-text">Grades</span></a></li>
-            <li><a href="../4. PomodoroTimer'/pomodoro.html"><i class="fa-solid fa-hourglass-half"></i> <span class="nav-text">Focus</span></a></li>
+            <li><a href="../1. Home/index.html"><i class="fa-solid fa-house"></i> <span class="nav-text">Home</span></a>
+            </li>
+            <li><a href="../2. Calendar/calendar.html"><i class="fa-solid fa-calendar"></i> <span
+                        class="nav-text">Calendar</span></a></li>
+            <li><a href="../5. Projects/projects.html"><i class="fa-solid fa-rocket"></i> <span
+                        class="nav-text">Projects</span></a></li>
+            <li><a href="../6. Notes/notes.html"><i class="fa-solid fa-leaf"></i> <span
+                        class="nav-text">Notes</span></a></li>
+            <li class="active"><a href="#"><i class="fa-solid fa-graduation-cap"></i> <span
+                        class="nav-text">Grades</span></a></li>
+            <li><a href="../4. PomodoroTimer'/pomodoro.html"><i class="fa-solid fa-hourglass-half"></i> <span
+                        class="nav-text">Focus</span></a></li>
         </ul>
         <div class="user-profile">
             <div class="avatar">PC</div>
@@ -40,7 +48,7 @@
 
     <!-- Main Content -->
     <main class="dashboard">
-        
+
         <!-- Header & Config -->
         <div class="header-section">
             <div class="title-area">
@@ -52,7 +60,7 @@
 
         <!-- Dashboard Grid -->
         <div class="content-grid">
-            
+
             <!-- Left Column: Graph and Meta -->
             <div class="left-col">
                 <div class="widget glass-panel graph-widget">
@@ -70,7 +78,8 @@
                         <div class="semester-tabs" id="semester-tabs">
                             <!-- Tabs populated by JS -->
                         </div>
-                        <button class="glass-btn small-btn" id="add-subject-btn"><i class="fa-solid fa-plus"></i> Add Subject</button>
+                        <button class="glass-btn small-btn" id="add-subject-btn"><i class="fa-solid fa-plus"></i> Add
+                            Subject</button>
                     </div>
 
                     <div class="subjects-grid" id="subjects-container">
@@ -104,7 +113,7 @@
         <div class="modal-content glass-panel large-modal">
             <span class="close-btn" id="close-subject">&times;</span>
             <h2 id="subject-modal-title">Add New Subject</h2>
-            
+
             <div class="modal-grid">
                 <div class="setting-group">
                     <label>Subject Name</label>
@@ -131,7 +140,7 @@
                     <textarea id="subj-weightages" placeholder="e.g. Midterm 30%, Final 50%, Homework 20%"></textarea>
                 </div>
             </div>
-            
+
             <input type="hidden" id="edit-subj-id" value="">
             <button class="primary-btn" id="save-subject-btn">Save Subject</button>
         </div>
@@ -140,4 +149,5 @@
     <script src="../theme.js"></script>
     <script src="grades.js"></script>
 </body>
+
 </html>

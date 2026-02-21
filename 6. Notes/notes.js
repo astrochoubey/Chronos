@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (note) {
                 // Find subject label
                 const meta = findMetaForNote(note.id);
-                
+
                 const card = document.createElement('div');
                 card.className = 'recent-note-card';
                 card.innerHTML = `
@@ -107,9 +107,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="note-meta">
                         <span><i class="fa-regular fa-clock"></i> ${note.lastEdited}</span>
                         <span>
-                            ${note.status === 'completed' 
-                                ? '<i class="fa-solid fa-check-circle" style="color:var(--success)"></i> Cmpl' 
-                                : '<i class="fa-regular fa-circle"></i> Inc'}
+                            ${note.status === 'completed'
+                        ? '<i class="fa-solid fa-check-circle" style="color:var(--success)"></i> Cmpl'
+                        : '<i class="fa-regular fa-circle"></i> Inc'}
                         </span>
                     </div>
                 `;
@@ -123,15 +123,85 @@ document.addEventListener('DOMContentLoaded', () => {
         notesData.subjects.forEach(subject => {
             const group = document.createElement('div');
             group.className = 'subject-group';
-            
+
             let html = `<h3>${subject.name} <span>${subject.notebooks.length} Notebooks</span></h3>`;
             html += `<div class="notebooks-grid">`;
-            
+
             subject.notebooks.forEach(nb => {
+                // Collect note titles for preview
+                let noteTitles = [];
+                nb.topics.forEach(t => {
+                    t.subtopics.forEach(st => {
+                        st.notes.forEach(n => {
+                            if (noteTitles.length < 6) noteTitles.push(n.title);
+                        });
+                    });
+                });
+
+                let previewHtml = '';
+                if (noteTitles.length > 0) {
+                    previewHtml = `
+                        <div class="preview-overlay">
+                            <div>
+                                <div class="preview-overlay-header">
+                                    <span>Quick Preview</span>
+                                    <i class="fa-solid fa-eye"></i>
+                                </div>
+                                <ul class="preview-scroll preview-list">
+                                    ${noteTitles.map(title => `
+                                        <li class="preview-list-item">
+                                            <div class="preview-bullet"></div>
+                                            <span class="preview-text">${title}</span>
+                                        </li>
+                                    `).join('')}
+                                </ul>
+                            </div>
+                            <button class="preview-btn" onclick="openNotebookHandler('${subject.id}', '${nb.id}')">
+                                <span>Open Notebook</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    `;
+                } else {
+                    previewHtml = `
+                        <div class="preview-overlay">
+                            <div>
+                                <div class="preview-overlay-header">
+                                    <span>Quick Preview</span>
+                                    <i class="fa-solid fa-eye"></i>
+                                </div>
+                                <div class="preview-text" style="opacity: 0.5; font-style: italic; padding-top: 10px;">
+                                    No notes yet
+                                </div>
+                            </div>
+                            <button class="preview-btn" onclick="openNotebookHandler('${subject.id}', '${nb.id}')">
+                                <span>Open Notebook</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    `;
+                }
+
+                // Choose a random icon for demo purposes based on notebook name length
+                const icons = ['fa-book', 'fa-pen-nib', 'fa-lightbulb', 'fa-code', 'fa-flask'];
+                const iconClass = icons[nb.name.length % icons.length];
+
                 html += `
-                    <div class="notebook-card" style="background: ${nb.color}" onclick="openNotebookHandler('${subject.id}', '${nb.id}')">
-                        <div class="notebook-title">${nb.name}</div>
-                        <div class="notebook-details">${nb.topics.length} Topics</div>
+                    <div class="notebook-card">
+                        <div class="card-content">
+                            <div class="card-icon-wrapper" style="background-color: ${nb.color}20; color: ${nb.color};">
+                                <i class="fa-solid ${iconClass}"></i>
+                            </div>
+                            <div style="margin-top: 16px;">
+                                <h3 class="card-title">${nb.name}</h3>
+                                <div class="card-meta">
+                                    <span class="card-meta-badge">${subject.name}</span>
+                                    <span>•</span>
+                                    <span>${nb.topics.length} Topics</span>
+                                </div>
+                            </div>
+                        </div>
+                        ${previewHtml}
                     </div>
                 `;
             });
@@ -139,11 +209,13 @@ document.addEventListener('DOMContentLoaded', () => {
             // Add new notebook button
             html += `
                 <div class="new-notebook-card" onclick="openAddModal('${subject.name}')">
-                    <i class="fa-solid fa-plus"></i>
-                    <span>Add Notebook</span>
+                    <div class="new-notebook-icon">
+                        <i class="fa-solid fa-plus" style="font-size: 24px;"></i>
+                    </div>
+                    <span class="new-notebook-text">Add Notebook</span>
                 </div>
             `;
-            
+
             html += `</div>`;
             group.innerHTML = html;
             containers.subjectList.appendChild(group);
@@ -151,7 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Handlers
-    window.openNotebookHandler = function(subjectId, notebookId) {
+    window.openNotebookHandler = function (subjectId, notebookId) {
         currentSubject = notesData.subjects.find(s => s.id === subjectId);
         currentNotebook = currentSubject.notebooks.find(n => n.id === notebookId);
         openEditorView();
@@ -188,7 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (currentNotebook.topics.length > 0 && currentNotebook.topics[0].subtopics.length > 0 && currentNotebook.topics[0].subtopics[0].notes.length > 0) {
                 firstNote = currentNotebook.topics[0].subtopics[0].notes[0];
             }
-            if(firstNote) loadNoteInEditor(firstNote);
+            if (firstNote) loadNoteInEditor(firstNote);
             else clearEditor();
         }
     }
@@ -209,10 +281,10 @@ document.addEventListener('DOMContentLoaded', () => {
         currentNotebook.topics.forEach(topic => {
             const topicEl = document.createElement('div');
             topicEl.className = 'tree-item';
-            
+
             let html = `<div class="tree-topic"><i class="fa-solid fa-chevron-right"></i> ${topic.name}</div>`;
             html += `<div class="tree-subtopic" style="display:block;">`;
-            
+
             topic.subtopics.forEach(sub => {
                 html += `<div style="font-size:12px; color:var(--text-muted); padding:4px 10px; text-transform:uppercase; letter-spacing:1px;">${sub.name}</div>`;
                 sub.notes.forEach(note => {
@@ -224,13 +296,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             });
             html += `</div>`;
-            
+
             topicEl.innerHTML = html;
             // Topic toggling
             topicEl.querySelector('.tree-topic').onclick = (e) => {
                 const subEl = e.currentTarget.nextElementSibling;
                 const icon = e.currentTarget.querySelector('i');
-                if(subEl.style.display === 'none') {
+                if (subEl.style.display === 'none') {
                     subEl.style.display = 'block';
                     icon.style.transform = 'rotate(90deg)';
                 } else {
@@ -245,21 +317,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    window.loadNoteHandler = function(noteId) {
+    window.loadNoteHandler = function (noteId) {
         loadNoteInEditor(findNoteById(noteId));
     };
 
     function loadNoteInEditor(note) {
-        if(!note) return;
+        if (!note) return;
         activeNote = note;
-        
+
         // Find meta
         const meta = findMetaForNote(note.id);
         containers.editorBreadcrumbs.textContent = `${meta.subjectName} / ${meta.notebookName} / ${meta.topicName} / ${meta.subtopicName}`;
-        
+
         containers.noteTitle.value = note.title;
         containers.noteContent.innerHTML = note.content;
-        
+
         // Tags
         let tagsHtml = '';
         note.tags.forEach(tag => {
@@ -269,7 +341,7 @@ document.addEventListener('DOMContentLoaded', () => {
         containers.noteTags.innerHTML = tagsHtml;
 
         updateStatusUI(note.status);
-        
+
         // re-render tree to hit active class
         renderHierarchyTree();
     }
@@ -283,21 +355,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Status Toggle
-    window.toggleStatus = function() {
-        if(!activeNote) return;
-        
+    window.toggleStatus = function () {
+        if (!activeNote) return;
+
         if (activeNote.status === 'incomplete') {
             activeNote.status = 'completed';
         } else {
             activeNote.status = 'incomplete';
         }
-        
+
         updateStatusUI(activeNote.status);
         renderHierarchyTree(); // Update dot in sidebar
     };
 
     function updateStatusUI(status) {
-        if(status === 'completed') {
+        if (status === 'completed') {
             containers.noteStatus.className = 'status-indicator completed';
             containers.noteStatus.innerHTML = '<i class="fa-solid fa-check-square"></i> Completed';
         } else {
@@ -306,8 +378,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    window.addTag = function() {
-        if(!activeNote) return;
+    window.addTag = function () {
+        if (!activeNote) return;
         const tag = prompt("Enter new tag name:");
         if (tag && tag.trim() !== "") {
             activeNote.tags.push(tag.trim());
@@ -317,12 +389,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Helper functions
     function findNoteById(id) {
-        for(let s of notesData.subjects) {
-            for(let nb of s.notebooks) {
-                for(let t of nb.topics) {
-                    for(let st of t.subtopics) {
-                        for(let n of st.notes) {
-                            if(n.id === id) return n;
+        for (let s of notesData.subjects) {
+            for (let nb of s.notebooks) {
+                for (let t of nb.topics) {
+                    for (let st of t.subtopics) {
+                        for (let n of st.notes) {
+                            if (n.id === id) return n;
                         }
                     }
                 }
@@ -332,12 +404,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function findMetaForNote(id) {
-        for(let s of notesData.subjects) {
-            for(let nb of s.notebooks) {
-                for(let t of nb.topics) {
-                    for(let st of t.subtopics) {
-                        for(let n of st.notes) {
-                            if(n.id === id) return {
+        for (let s of notesData.subjects) {
+            for (let nb of s.notebooks) {
+                for (let t of nb.topics) {
+                    for (let st of t.subtopics) {
+                        for (let n of st.notes) {
+                            if (n.id === id) return {
                                 subjectName: s.name,
                                 subjectId: s.id,
                                 notebookName: nb.name,
@@ -354,7 +426,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Modal Logic ---
-    window.openAddModal = function(subjectName = '') {
+    window.openAddModal = function (subjectName = '') {
         addModal.classList.add('active');
         document.getElementById('modal-subject').value = subjectName;
         document.getElementById('modal-notebook').value = '';
@@ -392,7 +464,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 name: nbName,
                 color: selectedColor,
                 topics: [
-                    { id: 't_default', name: 'General', subtopics: [{ id: 'st_default', name: 'Notes', notes: []}] }
+                    { id: 't_default', name: 'General', subtopics: [{ id: 'st_default', name: 'Notes', notes: [] }] }
                 ]
             };
             subject.notebooks.push(newNb);
