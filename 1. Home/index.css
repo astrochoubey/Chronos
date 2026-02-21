@@ -1,0 +1,297 @@
+/* =========================================================================
+   Home Page Layered Dashboard Styles
+   ========================================================================= */
+
+   :root {
+    --bg-color: #0f172a;
+    --glass-bg: rgba(255, 255, 255, 0.08);
+    --glass-border: rgba(255, 255, 255, 0.15);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    --glass-hover: rgba(255, 255, 255, 0.12);
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --primary: #3b82f6;
+    --primary-hover: #2563eb;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+}
+
+:root[data-theme="light"] {
+    --bg-color: #f8fafc;
+    --glass-bg: rgba(255, 255, 255, 0.6);
+    --glass-border: rgba(0, 0, 0, 0.1);
+    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+    --glass-hover: rgba(255, 255, 255, 0.8);
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Outfit', sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Background Pattern */
+.bg-pattern {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--bg-color);
+    background-image: url('../Archive/Gray\ Asphalt\ Road\ Photo.jpg'); /* Adjust based on your images */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -3;
+    pointer-events: none;
+    transition: 0.3s background-color ease;
+}
+
+/* Shared UI Components */
+.glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    border-radius: 16px;
+}
+
+.primary-btn {
+    background: var(--primary); color: #fff; border: none; padding: 12px 20px;
+    border-radius: 12px; font-weight: 600; font-size: 14px; cursor: pointer; transition: 0.3s;
+}
+.primary-btn:hover { background: var(--primary-hover); transform: translateY(-2px); }
+
+.glass-btn {
+    background: transparent; border: 1px solid var(--glass-border); color: var(--text-main);
+    padding: 10px 20px; border-radius: 12px; cursor: pointer; transition: 0.3s;
+}
+.glass-btn:hover { background: var(--glass-border); }
+
+.small-btn { padding: 8px 12px; font-size: 14px; }
+.primary-tint { background: rgba(59, 130, 246, 0.2); color: #3b82f6; border-color: rgba(59, 130, 246, 0.4); }
+.primary-tint:hover { background: rgba(59, 130, 246, 0.3); }
+
+/* --- Top Navigation Base --- */
+.top-nav {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 30px; margin: 20px auto 0 auto; max-width: 1500px; width: calc(100% - 40px);
+    height: 70px; z-index: 10;
+}
+.nav-branding { display: flex; align-items: center; gap: 15px; }
+.nav-branding h2 { font-size: 24px; font-weight: 700; color: var(--text-main); }
+.nav-links { list-style: none; display: flex; gap: 15px; }
+.nav-links a {
+    display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--text-muted);
+    padding: 8px 15px; border-radius: 12px; transition: all 0.3s ease; font-weight: 500;
+}
+.nav-links a:hover { background: var(--glass-border); color: var(--text-main); }
+.nav-links li.active a { background: var(--text-main); color: var(--bg-color); font-weight: 600; }
+.user-profile { display: flex; align-items: center; }
+.avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--primary); display: flex; align-items: center; justify-content: center; font-weight: 700; color: white; }
+.theme-toggle { margin-left: 15px; background: transparent; border: none; color: var(--text-main); font-size: 20px; cursor: pointer; transition: 0.3s; }
+.theme-toggle:hover { color: var(--primary); }
+
+/* --- Layered Dashboard Layout --- */
+.dashboard-layered {
+    flex-grow: 1; padding: 20px 0; max-width: 1500px; margin: 0 auto; width: calc(100% - 40px);
+    display: flex; flex-direction: column; gap: 25px;
+}
+
+.dashboard-header { display: flex; justify-content: space-between; align-items: flex-end; }
+.welcome-text { font-size: 32px; font-weight: 700; color: var(--text-main); margin-bottom: 5px; }
+.date-text { font-size: 16px; color: var(--text-muted); }
+
+.dash-grid {
+    display: grid;
+    grid-template-columns: 280px 1fr 280px;
+    gap: 25px;
+    align-items: start;
+}
+
+.dash-column { display: flex; flex-direction: column; gap: 20px; }
+
+/* General Widget Styles */
+.widget { padding: 20px; display: flex; flex-direction: column; }
+.widget-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.widget-header h3 { font-size: 16px; color: var(--text-main); display: flex; align-items: center; gap: 8px; font-weight: 600; }
+.arrow-icon { color: var(--text-muted); font-size: 14px; transition: 0.2s; }
+
+.clickable-widget { cursor: pointer; transition: transform 0.2s, background 0.2s; }
+.clickable-widget:hover { transform: translateY(-3px); background: var(--glass-hover); }
+.clickable-widget:hover .arrow-icon { color: var(--text-main); transform: translateX(3px); }
+
+
+/* --- Left Column: Time & Urgency --- */
+/* Mini Calendar */
+.mini-calendar-content { display: flex; flex-direction: column; gap: 15px; }
+.today-date-box {
+    background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    border: 1px dashed var(--glass-border);
+}
+.today-date-box .month { font-size: 14px; color: var(--danger); text-transform: uppercase; font-weight: 700; letter-spacing: 1px; }
+.today-date-box .day { font-size: 36px; font-weight: 800; line-height: 1; color: var(--text-main); }
+
+.upcoming-events-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.upcoming-events-list li { font-size: 13px; color: var(--text-muted); display: flex; align-items: center; gap: 8px; }
+.event-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+/* Today's Tasks */
+.task-read-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.task-read-list li { font-size: 14px; color: var(--text-main); display: flex; align-items: flex-start; gap: 8px; }
+.task-read-list i { margin-top: 3px; color: var(--text-muted); font-size: 12px; }
+
+/* Water Widget (Compact) */
+.water-content { display: flex; align-items: center; justify-content: center; gap: 20px; padding: 5px 0; }
+.water-progress-container { position: relative; width: 100px; height: 100px; display: flex; justify-content: center; align-items: center; }
+.progress-ring__circle { transition: stroke-dashoffset 0.5s ease-in-out; transform: rotate(-90deg); transform-origin: 50% 50%; stroke-linecap: round; }
+.water-text { position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.water-count-display { font-size: 26px; font-weight: 700; color: var(--text-main); line-height: 1; display:flex; align-items:baseline; }
+.water-count-display .goal { font-size: 14px; color: var(--text-muted); font-weight: 500; margin-left: 2px;}
+.water-actions { display: flex; flex-direction: column; gap: 12px; justify-content: center; }
+.water-actions button { width: 42px; height: 42px; padding: 0; border-radius: 12px; font-size: 16px; display: flex; align-items: center; justify-content: center; }
+.water-actions .primary-tint { background: var(--primary); color: white; border: none; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3); }
+.water-actions .primary-tint:hover { background: var(--primary-hover); }
+
+
+/* --- Center Column: Overview & Structure --- */
+
+/* Status Row Summary */
+.status-summary-row {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px;
+}
+.status-card {
+    padding: 15px; display: flex; align-items: center; gap: 12px;
+    border-left: 4px solid var(--sc-color);
+}
+.status-card i { font-size: 24px; color: var(--sc-color); opacity: 0.8; }
+.status-info { display: flex; flex-direction: column; }
+.status-val { font-size: 20px; font-weight: 700; color: var(--text-main); line-height: 1.1; }
+.status-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+
+/* Weekly Schedule Panel */
+.timetable-grid {
+    display: grid;
+    grid-template-columns: 50px repeat(5, 1fr);
+    gap: 5px;
+    margin-top: 10px;
+    background: rgba(0,0,0,0.1);
+    padding: 10px;
+    border-radius: 12px;
+    border: 1px solid var(--glass-border);
+}
+.tt-header { font-size: 12px; text-transform: uppercase; font-weight: 600; color: var(--text-muted); text-align: center; padding-bottom: 5px; border-bottom: 1px solid var(--glass-border); }
+.tt-time { font-size: 11px; color: var(--text-muted); display: flex; align-items: center; justify-content: flex-end; padding-right: 8px; font-weight: 500; }
+.tt-block { min-height: 35px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: var(--text-main); text-align: center; }
+.tt-block.has-class { box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+.tt-block.has-class:hover { filter: brightness(1.2); cursor: default; }
+
+/* Resource Shortcuts Row */
+.utility-shortcuts {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px;
+}
+.shortcut-card {
+    padding: 15px; display: flex; flex-direction: column; align-items: center; gap: 8px; justify-content: center; text-decoration: none; color: var(--text-main); transition: 0.3s;
+}
+.shortcut-card:hover { transform: translateY(-4px); background: var(--glass-hover); border-color: var(--sc-color); color: var(--sc-color); }
+.shortcut-card i { font-size: 20px; color: var(--sc-color); }
+.shortcut-card span { font-size: 12px; font-weight: 500; }
+
+/* Recent Notes Home Grid */
+.recent-notes-home-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;
+}
+.recent-note-card {
+    background: rgba(0,0,0,0.15); border: 1px solid var(--glass-border); border-radius: 12px;
+    padding: 15px; cursor: pointer; transition: 0.3s;
+}
+.recent-note-card:hover { background: var(--glass-hover); transform: translateY(-3px); }
+.recent-note-card h3 { font-size: 14px; margin-bottom: 8px; font-weight: 500; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.subject-label { font-size: 10px; background: rgba(59, 130, 246, 0.2); color: #3b82f6; padding: 3px 8px; border-radius: 10px; display: inline-block; margin-bottom: 8px; text-transform: uppercase; font-weight: 600; }
+.note-meta { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted); align-items: center; }
+
+/* --- Right Column: Psychology & Capture --- */
+
+/* Daily Quote Widget */
+.daily-quote {
+    background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+    position: relative; overflow: hidden; padding: 30px 25px;
+    display: flex; flex-direction: column; gap: 15px;
+}
+.quote-icon { position: absolute; top: -10px; left: -10px; font-size: 80px; color: rgba(255,255,255,0.03); }
+.quote-text { font-size: 16px; font-style: italic; color: rgba(255,255,255,0.9); line-height: 1.5; font-weight: 300; position: relative; z-index: 1;}
+.quote-author { font-size: 13px; color: var(--text-muted); font-weight: 600; text-align: right; position: relative; z-index: 1;}
+
+/* Fast Capture Widget */
+.fast-capture { flex-grow: 1; }
+.capture-body { display: flex; flex-direction: column; flex-grow: 1; gap: 15px; }
+.capture-body textarea {
+    width: 100%; height: 120px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border);
+    border-radius: 12px; padding: 15px; color: var(--text-main); font-size: 14px; outline: none; resize: none;
+    font-family: inherit; transition: 0.3s;
+}
+.capture-body textarea:focus { border-color: var(--warning); background: rgba(0,0,0,0.4); }
+.capture-actions { display: flex; justify-content: space-between; align-items: center; }
+.capture-status { font-size: 12px; color: var(--text-muted); display: flex; align-items: center; gap: 5px; }
+.capture-btn { width: 100%; max-width: 120px; padding: 10px; font-size: 13px; }
+
+/* Responsive tweaks */
+@media(max-width: 1200px) {
+    .dash-grid { grid-template-columns: 250px 1fr; }
+    .dash-right { display: none; } /* Could stack below instead of hiding based on preference */
+}
+
+/* Modals */
+.modal {
+    display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0, 0, 0, 0.6); z-index: 1000; align-items: center; justify-content: center;
+}
+.modal.active { display: flex; }
+.modal-content {
+    background: var(--bg-color); padding: 40px; width: 450px; position: relative;
+    border: 1px solid var(--glass-border); border-radius: 20px;
+}
+.close-btn { position: absolute; top: 20px; right: 25px; font-size: 24px; cursor: pointer; color: var(--text-muted); }
+.close-btn:hover { color: var(--text-main); }
+.setting-group { display: flex; flex-direction: column; margin-bottom: 18px; }
+.setting-group label { margin-bottom: 8px; font-size: 14px; color: var(--text-muted); }
+.setting-group input, .setting-group select {
+    background: var(--glass-bg); border: 1px solid var(--glass-border); padding: 12px;
+    border-radius: 10px; color: var(--text-main); font-size: 15px; outline: none; font-family: 'Outfit';
+}
+.setting-group select option { background: var(--bg-color); color: var(--text-main); }
+
+/* Todo List */
+.empty-todo { color: var(--text-muted); font-size: 14px; text-align: center; margin-top: 20px; font-style: italic; }
+.todo-list { display: flex; flex-direction: column; gap: 12px; width: 100%; }
+.todo-item {
+    background: rgba(0,0,0,0.15); border: 1px solid var(--glass-border); border-radius: 14px;
+    padding: 12px 14px; display: flex; align-items: center; gap: 12px; transition: 0.3s;
+    cursor: pointer; position: relative; overflow: hidden;
+}
+.todo-item:hover { background: var(--glass-hover); transform: translateX(3px); }
+.todo-check {
+    width: 20px; height: 20px; border-radius: 5px; border: 2px solid var(--primary);
+    display: flex; justify-content: center; align-items: center; transition: 0.2s;
+    font-size: 11px; flex-shrink: 0;
+}
+.todo-content { flex-grow: 1; }
+.todo-title { font-size: 14px; font-weight: 500; margin-bottom: 2px; transition: 0.3s; color: var(--text-main); }
+.todo-date { font-size: 11px; color: var(--text-muted); }
+.todo-tag { position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--primary); }
+

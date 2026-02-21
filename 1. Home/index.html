@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Chronos</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Background Pattern -->
+    <div class="bg-pattern"></div>
+
+    <!-- Top Navigation Bar -->
+    <nav class="top-nav glass-panel">
+        <div class="nav-branding">
+            <h2>Chronos</h2>
+        </div>
+        <ul class="nav-links">
+            <li class="active"><a href="index.html"><i class="fa-solid fa-house"></i> <span class="nav-text">Home</span></a></li>
+            <li><a href="../2. Calendar/calendar.html"><i class="fa-solid fa-calendar"></i> <span class="nav-text">Calendar</span></a></li>
+            <li><a href="../5. Projects/projects.html"><i class="fa-solid fa-rocket"></i> <span class="nav-text">Projects</span></a></li>
+            <li><a href="../6. Notes/notes.html"><i class="fa-solid fa-leaf"></i> <span class="nav-text">Notes</span></a></li>
+            <li><a href="../3. Grades/grades.html"><i class="fa-solid fa-graduation-cap"></i> <span class="nav-text">Grades</span></a></li>
+            <li><a href="../4. PomodoroTimer'/pomodoro.html"><i class="fa-solid fa-hourglass-half"></i> <span class="nav-text">Focus</span></a></li>
+        </ul>
+        <div class="user-profile">
+            <div class="avatar">PC</div>
+            <button class="theme-toggle" id="theme-toggle" title="Toggle Light/Dark Theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Dashboard Application Layers -->
+    <main class="dashboard-layered">
+        
+        <header class="dashboard-header">
+            <div>
+                <h1 class="welcome-text">Welcome back. Let's make today count.</h1>
+                <p class="date-text" id="current-date-display">Today is the day</p>
+            </div>
+            <div class="header-actions">
+                <!-- Can add global quick settings here if needed later -->
+            </div>
+        </header>
+
+        <div class="dash-grid">
+            
+            <!-- LEFT LAYER: Time & Urgency (Calendar, Tasks, Water) -->
+            <aside class="dash-column dash-left">
+                
+                <!-- Mini Calendar Widget -->
+                <div class="widget glass-panel clickable-widget mini-calendar" onclick="window.location.href='../2. Calendar/calendar.html'">
+                    <div class="widget-header">
+                        <h3><i class="fa-regular fa-calendar-days"></i> Upcoming</h3>
+                        <i class="fa-solid fa-arrow-right arrow-icon"></i>
+                    </div>
+                    <div class="mini-calendar-content">
+                        <div class="today-date-box">
+                            <span class="month" id="mc-month">Feb</span>
+                            <span class="day" id="mc-day">21</span>
+                        </div>
+                        <ul class="upcoming-events-list">
+                            <li><span class="event-dot" style="background:#ef4444"></span> 10:00 AM - Physics Lab</li>
+                            <li><span class="event-dot" style="background:#3b82f6"></span> 2:30 PM - Team Sync</li>
+                            <li><span class="event-dot" style="background:#10b981"></span> Tomorrow - CS Project Due</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Today's Tasks Auto-Generated -->
+                <div class="widget glass-panel todays-tasks">
+                    <div class="widget-header">
+                        <h3><i class="fa-solid fa-list-check"></i> Today's Tasks</h3>
+                        <button id="add-todo-btn" class="glass-btn small-btn primary-tint" style="padding: 4px 8px; border-radius: 8px;"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                    <div class="todo-list" id="todo-list-container">
+                        <!-- Todo items injected by JS -->
+                    </div>
+                </div>
+
+                <!-- Water Intake Reminder -->
+                <div class="widget glass-panel water-widget">
+                    <div class="widget-header">
+                        <h3><i class="fa-solid fa-droplet" style="color: #3b82f6;"></i> Hydration</h3>
+                    </div>
+                    <div class="water-content">
+                        <div class="water-progress-container">
+                            <svg class="progress-ring" width="100" height="100">
+                                <circle class="progress-ring__circle bg" stroke="var(--glass-border)" stroke-width="8" fill="transparent" r="42" cx="50" cy="50"/>
+                                <circle class="progress-ring__circle fill" id="water-progress" stroke="#3b82f6" stroke-width="8" fill="transparent" r="42" cx="50" cy="50"/>
+                            </svg>
+                            <div class="water-text">
+                                <span class="water-count-display"><span id="water-count">0</span><span class="goal">/8</span></span>
+                            </div>
+                        </div>
+                        <div class="water-actions">
+                            <button id="add-water-btn" class="glass-btn small-btn primary-tint"><i class="fa-solid fa-plus"></i></button>
+                            <button id="reset-water-btn" class="glass-btn small-btn"><i class="fa-solid fa-rotate-left"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+            </aside>
+
+            <!-- CENTER LAYER: Structure & Status (Overview, Timetable, Utility) -->
+            <section class="dash-column dash-center">
+                
+                <!-- Central Status Summary Row -->
+                <div class="status-summary-row">
+                    <div class="status-card glass-panel" style="--sc-color: #3b82f6;">
+                        <i class="fa-regular fa-clock"></i>
+                        <div class="status-info">
+                            <span class="status-val">3</span>
+                            <span class="status-label">Classes Today</span>
+                        </div>
+                    </div>
+                    <div class="status-card glass-panel" style="--sc-color: #f59e0b;">
+                        <i class="fa-solid fa-rocket"></i>
+                        <div class="status-info">
+                            <span class="status-val">2</span>
+                            <span class="status-label">Active Projects</span>
+                        </div>
+                    </div>
+                    <div class="status-card glass-panel" style="--sc-color: #10b981;">
+                        <i class="fa-solid fa-book-open"></i>
+                        <div class="status-info">
+                            <span class="status-val">85%</span>
+                            <span class="status-label">Study Progress</span>
+                        </div>
+                    </div>
+                    <div class="status-card glass-panel" style="--sc-color: #ef4444;">
+                        <i class="fa-solid fa-fire"></i>
+                        <div class="status-info">
+                            <span class="status-val">1</span>
+                            <span class="status-label">Deadline Near</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Weekly Class Schedule Panel -->
+                <div class="widget glass-panel weekly-schedule">
+                    <div class="widget-header">
+                        <h3><i class="fa-solid fa-table"></i> Weekly Schedule Blueprint</h3>
+                    </div>
+                    <div class="timetable-grid">
+                        <div class="tt-header empty"></div>
+                        <div class="tt-header">Mon</div>
+                        <div class="tt-header">Tue</div>
+                        <div class="tt-header">Wed</div>
+                        <div class="tt-header">Thu</div>
+                        <div class="tt-header">Fri</div>
+
+                        <!-- 9 AM -->
+                        <div class="tt-time">09:00</div>
+                        <div class="tt-block has-class" style="background: rgba(59, 130, 246, 0.2); border-left: 3px solid #3b82f6;">Physics 101</div>
+                        <div class="tt-block"></div>
+                        <div class="tt-block has-class" style="background: rgba(59, 130, 246, 0.2); border-left: 3px solid #3b82f6;">Physics 101</div>
+                        <div class="tt-block"></div>
+                        <div class="tt-block has-class" style="background: rgba(59, 130, 246, 0.2); border-left: 3px solid #3b82f6;">Physics 101</div>
+
+                        <!-- 11 AM -->
+                        <div class="tt-time">11:00</div>
+                        <div class="tt-block"></div>
+                        <div class="tt-block has-class" style="background: rgba(139, 92, 246, 0.2); border-left: 3px solid #8b5cf6;">Calculus II</div>
+                        <div class="tt-block"></div>
+                        <div class="tt-block has-class" style="background: rgba(139, 92, 246, 0.2); border-left: 3px solid #8b5cf6;">Calculus II</div>
+                        <div class="tt-block"></div>
+
+                        <!-- 2 PM -->
+                        <div class="tt-time">14:00</div>
+                        <div class="tt-block has-class" style="background: rgba(16, 185, 129, 0.2); border-left: 3px solid #10b981;">Comp Sci</div>
+                        <div class="tt-block has-class lab" style="background: rgba(245, 158, 11, 0.2); border-left: 3px solid #f59e0b;">Chem Lab</div>
+                        <div class="tt-block has-class" style="background: rgba(16, 185, 129, 0.2); border-left: 3px solid #10b981;">Comp Sci</div>
+                        <div class="tt-block"></div>
+                        <div class="tt-block has-class" style="background: rgba(16, 185, 129, 0.2); border-left: 3px solid #10b981;">Comp Sci</div>
+                    </div>
+                </div>
+
+                <!-- Utility Layer: Resource Shortcuts -->
+                <div class="utility-shortcuts">
+                    <a href="https://drive.google.com" target="_blank" class="shortcut-card glass-panel" style="--sc-color: #3b82f6;">
+                        <i class="fa-brands fa-google-drive"></i>
+                        <span>Drive</span>
+                    </a>
+                    <a href="https://classroom.google.com" target="_blank" class="shortcut-card glass-panel" style="--sc-color: #10b981;">
+                        <i class="fa-solid fa-chalkboard-user"></i>
+                        <span>Classroom</span>
+                    </a>
+                    <a href="https://notion.so" target="_blank" class="shortcut-card glass-panel" style="--sc-color: #f59e0b;">
+                        <i class="fa-solid fa-n"></i>
+                        <span>Notion</span>
+                    </a>
+                    <a href="https://mail.google.com" target="_blank" class="shortcut-card glass-panel" style="--sc-color: #ef4444;">
+                        <i class="fa-solid fa-envelope"></i>
+                        <span>Email</span>
+                    </a>
+                    <a href="https://youtube.com" target="_blank" class="shortcut-card glass-panel" style="--sc-color: #8b5cf6;">
+                        <i class="fa-brands fa-youtube"></i>
+                        <span>Lofi Focus</span>
+                    </a>
+                </div>
+
+                <!-- Recent Notes Summary Row -->
+                <div class="widget glass-panel recent-notes-widget" style="margin-top:20px; flex-grow: 1;">
+                    <div class="widget-header">
+                        <h3><i class="fa-solid fa-book-open" style="color: #10b981;"></i> Recent Notes</h3>
+                        <i class="fa-solid fa-arrow-right arrow-icon" style="cursor: pointer;" onclick="window.location.href='../6. Notes/notes.html'"></i>
+                    </div>
+                    <div class="recent-notes-home-grid" id="home-recent-notes">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- RIGHT LAYER: Capture & Psychology -->
+            <aside class="dash-column dash-right">
+                
+                <!-- Daily Quote (Psychological Layer) -->
+                <div class="widget glass-panel daily-quote">
+                    <i class="fa-solid fa-quote-left quote-icon"></i>
+                    <p class="quote-text" id="quote-text">"Success is the sum of small efforts, repeated day in and day out."</p>
+                    <span class="quote-author" id="quote-author">- Robert Collier</span>
+                </div>
+
+                <!-- Fast Capture Layer -->
+                <div class="widget glass-panel fast-capture">
+                    <div class="widget-header">
+                        <h3><i class="fa-solid fa-bolt" style="color: #f59e0b;"></i> Fast Capture</h3>
+                    </div>
+                    <div class="capture-body">
+                        <textarea id="capture-input" placeholder="Brain dump your ideas... Saves to Notes Vault."></textarea>
+                        <div class="capture-actions">
+                            <span class="capture-status" id="capture-status"><i class="fa-regular fa-folder"></i> General</span>
+                            <button id="save-capture-btn" class="primary-btn capture-btn">Save Note</button>
+                        </div>
+                    </div>
+                </div>
+
+            </aside>
+        </div>
+    </main>
+
+    <!-- Modal for Event & Todo Create/Edit -->
+    <div id="event-modal" class="modal">
+        <div class="modal-content glass-panel">
+            <span class="close-btn" id="close-event-modal">&times;</span>
+            <h2 id="modal-title">Add Event / Task</h2>
+            
+            <div class="setting-group" style="margin-top:20px;">
+                <label>Title</label>
+                <input type="text" id="event-title" placeholder="What's happening?">
+            </div>
+            
+            <div class="setting-group">
+                <label>Date & Time</label>
+                <input type="datetime-local" id="event-date">
+            </div>
+
+            <div class="setting-group">
+                <label>Tag (Color)</label>
+                <select id="event-color">
+                    <option value="#3b82f6" selected>Blue (General)</option>
+                    <option value="#10b981">Green (Personal)</option>
+                    <option value="#ef4444">Red (Urgent)</option>
+                    <option value="#f59e0b">Orange (Work)</option>
+                    <option value="#8b5cf6">Purple (Study)</option>
+                </select>
+            </div>
+
+            <div class="setting-group" style="flex-direction: row; align-items: center; gap: 10px; margin-top: 15px;">
+                <input type="checkbox" id="sync-todo" checked style="width:auto; height: 18px; width: 18px;">
+                <label for="sync-todo" style="margin: 0; cursor: pointer; color: var(--text-main); font-size: 16px;">Sync to To-Do List</label>
+            </div>
+
+            <input type="hidden" id="edit-event-id" value="">
+            <div style="display:flex; gap:10px; margin-top: 25px;">
+                <button class="primary-btn" id="save-event-btn" style="flex-grow:1;">Save</button>
+                <button class="glass-btn" id="delete-event-btn" style="display:none; border-color: var(--danger); color: var(--danger);">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../theme.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>
